@@ -103,7 +103,7 @@
 </head>
 <body>
     <div class="message-card">
-        <h1 class="title">💝 土味情话 💝</h1>
+        <h1 class="title">💝 情话 💝</h1>
         <div class="message-box" id="messageBox">
             <p class="message-text" id="messageText">正在加载情话...</p>
         </div>
@@ -115,18 +115,6 @@
         const getMessageBtn = document.getElementById('getMessageBtn');
         let isLoading = false;
 
-        // 添加本地备用情话
-        const backupMessages = [
-            "你是我最想留住的幸运",
-            "遇见你是我最美丽的意外",
-            "你是我最想留住的幸运",
-            "遇见你是我最美丽的意外",
-            "你是我最想留住的幸运",
-            "遇见你是我最美丽的意外",
-            "你是我最想留住的幸运",
-            "遇见你是我最美丽的意外"
-        ];
-
         async function getLoveMessage() {
             if (isLoading) return;
             
@@ -137,24 +125,15 @@
 
             try {
                 const response = await fetch('https://api.uomg.com/api/rand.qinghua?format=json');
-                if (!response.ok) {
-                    throw new Error('网络请求失败');
-                }
                 const data = await response.json();
-                if (data.code === 1 && data.content) {
-                    messageText.textContent = data.content;
-                } else {
-                    throw new Error('API返回数据格式错误');
-                }
+                messageText.textContent = data.content;
             } catch (error) {
                 console.error('获取情话失败:', error);
-                // 使用本地备用情话
-                const randomIndex = Math.floor(Math.random() * backupMessages.length);
-                messageText.textContent = backupMessages[randomIndex];
+                messageText.textContent = '获取情话失败，请稍后再试~';
             } finally {
                 isLoading = false;
                 getMessageBtn.disabled = false;
-                getMessageBtn.textContent = '点击获取情话';
+                getMessageBtn.textContent = '点击获取帆帆想对你说的话';
             }
         }
 
